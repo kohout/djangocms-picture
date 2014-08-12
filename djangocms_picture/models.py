@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from cms.models import CMSPlugin, Page
 from cms.utils.compat.dj import python_2_unicode_compatible
 
+from django.conf import settings
 
 @python_2_unicode_compatible
 class Picture(CMSPlugin):
@@ -46,6 +47,11 @@ class Picture(CMSPlugin):
     float = models.CharField(
         _("side"), max_length=10, blank=True, null=True, choices=FLOAT_CHOICES,
         help_text=_("Move image left, right or center."))
+
+    image_size = models.CharField(
+        _("image size"), max_length=50, choices=settings.THUMBNAIL_TOPSTORY_CHOICES,
+        default=settings.THUMBNAIL_TOPSTORY_CHOICES[0][0],
+        help_text=_("Image will be scaled down to this size."))
 
     def __str__(self):
         if self.alt:
